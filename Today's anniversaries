@@ -1,0 +1,136 @@
+type: custom:button-card
+entity: sensor.date
+show_name: false
+show_icon: false
+show_state: false
+show_label: true
+label: |
+  [[[
+    const dage = {
+      "01-01": { ikon: "🎆", tekst: "Nytårsdag", sub: "Helligdag & flagdag" },
+      "05-01": { ikon: "👑", tekst: "Helligtrekongersaften", sub: "Tradition" },
+      "15-01": { ikon: "🎁", tekst: "Christina Fødselsdag", sub: "Fødselsdag" },   
+      "17-01": { ikon: "🍕", tekst: "International Pizza-dag", sub: "Uofficiel mad-dag" },
+      "21-01": { ikon: "🤗", tekst: "International Krammedag", sub: "Uofficiel temadag" },
+      "27-01": { ikon: "🕯️", tekst: "International mindedag for holocaust", sub: "FN-dag" },
+      "02-02": { ikon: "🥞", tekst: "Kyndelmisse / Pandekagedag", sub: "Uofficiel temadag" },
+      "05-02": { ikon: "👸", tekst: "Dronning Marys fødselsdag", sub: "Officiel flagdag" },
+      "06-02": { ikon: "👸", tekst: "Prinsesse Maries fødselsdag", sub: "Officiel flagdag" },
+      "09-03": { ikon: "🧇", tekst: "Hvide Tirsdag", sub: "Uofficiel pandekage-dag" },  
+      "14-02": { ikon: "❤️", tekst: "Valentinsdag", sub: "Kommerciel kærlighedsdag" },
+      "15-02": { ikon: "🎭", tekst: "Fastelavn", sub: "Traditionel udklædningsdag" },
+      "27-02": { ikon: "🐻‍❄️", tekst: "International Isbjørnedag", sub: "Miljø-temadag" },
+      "06-03": { ikon: "🧀", tekst: "Ostens dag", sub: "Uofficiel mad-dag" },
+      "08-03": { ikon: "✊", tekst: "Kvindernes Internationale Kampdag", sub: "Global mærkedag" },
+      "17-03": { ikon: "🍀", tekst: "Skt. Patricks Dag", sub: "Irsk kulturfejring" },
+      "20-03": { ikon: "😊", tekst: "Den Internationale Glædesdag", sub: "FN-temadag" },
+      "25-03": { ikon: "🧇", tekst: "International Vaffeldag", sub: "Uofficiel mad-dag" },
+      "29-03": { ikon: "⏰", tekst: "Skift til sommertid", sub: "Urene stilles 1 time frem" },
+      "01-04": { ikon: "🤡", tekst: "Aprilsnar", sub: "Drilledag" },
+      "02-04": { ikon: "🙏", tekst: "Skærtorsdag", sub: "Helligdag & International Autismedag" },
+      "03-04": { ikon: "✝️", tekst: "Langfredag", sub: "Helligdag & flagdag på halv stang" },
+      "05-04": { ikon: "🐣", tekst: "Påskedag", sub: "Helligdag & flagdag" },
+      "06-04": { ikon: "🐣", tekst: "2. påskedag", sub: "Helligdag" },
+      "09-04": { ikon: "🇩🇰", tekst: "Danmarks besættelse 1940", sub: "Flagdag på halv stang til kl. 12" },
+      "16-04": { ikon: "👑", tekst: "Dronning Margrethe II's fødselsdag", sub: "Officiel flagdag" },
+      "21-04": { ikon: "👸", tekst: "Prinsesse Isabellas fødselsdag", sub: "Officiel flagdag" },
+      "22-04": { ikon: "🌍", tekst: "Jordens Dag", sub: "Global miljødag" },
+      "01-05": { ikon: "✊", tekst: "Arbejdernes Kampdag", sub: "Traditionel fridag" },
+      "04-05": { ikon: "🕯️", tekst: "Danmarks befrielse 1945", sub: "Lys i vinduerne om aftenen" },
+      "05-05": { ikon: "🇩🇰", tekst: "Danmarks befrielsesdag", sub: "Officiel flagdag" },
+      "10-05": { ikon: "💐", tekst: "Mors dag", sub: "Kommerciel mærkedag" },
+      "14-05": { ikon: "✝️", tekst: "Kristi Himmelfartsdag", sub: "Helligdag" },
+      "17-05": { ikon: "🍞", tekst: "International bagedag", sub: "Uofficiel mad-dag" },
+      "22-05": { ikon: "🦆", tekst: "International Erik dag", sub: "Uofficiel migselv-dag" },  
+      "24-05": { ikon: "🕊️", tekst: "Pinsedag", sub: "Helligdag & flagdag" },
+      "25-05": { ikon: "🕊️", tekst: "2. pinsedag", sub: "Helligdag & Royal Run" },
+      "26-05": { ikon: "👑", tekst: "Kong Frederik X's fødselsdag", sub: "Officiel flagdag" },
+      "01-06": { ikon: "🥛", tekst: "International Mælkedag", sub: "Temadag" },
+      "05-06": { ikon: "🇩🇰", tekst: "Grundlovsdag & Fars dag", sub: "Halv/hel fridag for mange" },
+      "07-06": { ikon: "👑", tekst: "Prins Joachims fødselsdag", sub: "Officiel flagdag" },
+      "08-06": { ikon: "🌊", tekst: "Verdenshavenes Dag", sub: "FN-temadag" },
+      "15-06": { ikon: "🇩🇰", tekst: "Valdemarsdag & Genforeningsdagen", sub: "Officiel flagdag" },
+      "21-06": { ikon: "🟢", tekst: "Grønlands Nationaldag", sub: "Flagdag med det grønlandske flag" },
+      "23-06": { ikon: "🔥", tekst: "Sankt Hans Aften", sub: "Traditionelle midsommerbål" },
+      "06-07": { ikon: "💋", tekst: "International Kyssedag", sub: "Uofficiel temadag" },
+      "17-07": { ikon: "🍹", tekst: "Gin Hass Dag - Christina/Erik", sub: "Familiedag" },
+      "22-07": { ikon: "👑", tekst: "Prins Felix' fødselsdag", sub: "Kongefamilien" },
+      "29-07": { ikon: "🐏", tekst: "Færøernes Nationaldag", sub: "Flagdag med det færøske flag" },
+      "30-07": { ikon: "🤝", tekst: "International Venskabsdag", sub: "FN-temadag" },
+      "08-08": { ikon: "🐱", tekst: "International Kattedag", sub: "Uofficiel temadag" },
+      "26-08": { ikon: "🐶", tekst: "International Hundedag", sub: "Uofficiel temadag" },
+      "28-08": { ikon: "👑", tekst: "Grev Nikolai af Monpezats fødselsdag", sub: "Kongefamilien" },
+      "29-08": { ikon: "🇩🇰", tekst: "Regeringens afgang i 1943", sub: "Historisk flagdag" },
+      "05-09": { ikon: "🎖️", tekst: "Flagdag for Danmarks Udsendte", sub: "Officiel flagdag" },
+      "13-09": { ikon: "🍫", tekst: "International Chokoladedag", sub: "Uofficiel mad-dag" },
+      "22-09": { ikon: "🎁", tekst: "Erik Fødselsdag", sub: "Fødselsdag" },    
+      "29-09": { ikon: "♻️", tekst: "National Madspildsdag", sub: "Temadag i Danmark" },
+      "01-10": { ikon: "☕", tekst: "International Kaffedag", sub: "Uofficiel temadag" },
+      "04-10": { ikon: "🥐", tekst: "Kanelsneglens Dag", sub: "Populær uofficiel mad-dag" },
+      "15-10": { ikon: "👑", tekst: "Kronprins Christians fødselsdag", sub: "Officiel flagdag" },
+      "20-10": { ikon: "🎁", tekst: "Ida Fødselsdag", sub: "Fødselsdag" },  
+      "23-10": { ikon: "🎃", tekst: "National Græskarsuppe-dag", sub: "Uofficiel dansk efterårsdag" },
+      "25-10": { ikon: "⏰", tekst: "Skift til vintertid", sub: "Urene stilles 1 time tilbage" },
+      "31-10": { ikon: "👻", tekst: "Halloween", sub: "Kommerciel og uofficiel festdag" },
+      "01-11": { ikon: "🕯️", tekst: "Allehelgensdag", sub: "Mindedag i kirken" },
+      "10-11": { ikon: "🦆", tekst: "Mortensaften", sub: "Tradition med and/gås" },
+      "19-11": { ikon: "👨", tekst: "International Mandedag", sub: "Uofficiel temadag" },
+      "27-11": { ikon: "🛍️", tekst: "Black Friday", sub: "Årets største kommercielle shoppedag" },
+      "13-12": { ikon: "🕯️", tekst: "Luciadag", sub: "Optog og lys" },
+      "21-12": { ikon: "❄️", tekst: "Vintersolhverv", sub: "Årets korteste dag" },
+      "24-12": { ikon: "🎄", tekst: "Juleaftensdag", sub: "Dansk julefejring" },
+      "25-12": { ikon: "🎁", tekst: "1. juledag", sub: "Helligdag" },
+      "26-12": { ikon: "🎁", tekst: "2. juledag", sub: "Helligdag" },
+      "31-12": { ikon: "🥂", tekst: "Nytårsaften", sub: "Festdag" }
+    };
+
+    const nu = new Date();
+    const md = String(nu.getDate()).padStart(2, '0') + '-' + String(nu.getMonth() + 1).padStart(2, '0');
+    const dag = dage[md];
+
+    // Fallback dag
+    const fallback = {
+      ikon: "🫧",
+      tekst: "En helt almindelig dag",
+      sub: "Ingen mærkedage i dag"
+    };
+
+    const vis = dag || fallback;
+
+    return `
+      <div style="display: flex; align-items: center; width: 100%; padding: 12px; gap: 15px;">
+        <div style="font-size: 38px; line-height: 1; min-width: 45px; text-align: center;">${vis.ikon}</div>
+        <div style="display: flex; flex-direction: column; flex-grow: 1; text-align: left;">
+          <div style="font-size: 16px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--secondary-text-color); margin-bottom: 2px;">
+            I DAG
+          </div>
+          <div style="font-size: 26px; font-weight: 700; color: #a2c875; line-height: 1.2;">
+            ${vis.tekst}
+          </div>
+          <div style="font-size: 16px; color: var(--primary-text-color); margin-top: 2px;">
+            ${vis.sub}
+          </div>
+        </div>
+      </div>
+    `;
+  ]]]
+styles:
+  card:
+    - background: transparent
+    - border-radius: 12px
+    - border: none
+    - padding: "0"
+    - height: 80px !important
+    - overflow: hidden
+  label:
+    - width: 100%
+    - height: 130%
+    - display: flex
+    - align-items: center
+card_mod:
+  style: |
+    ha-card {
+      background: transparent !important;
+      box-shadow: none !important;
+      border: none !important;
+    }
