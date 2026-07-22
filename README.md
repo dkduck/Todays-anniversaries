@@ -1,92 +1,84 @@
-# 🎉 TODAY – Dynamic Day‑Info Card for Home Assistant
+# 🎉 TODAY – Dynamisk Dagsinfo-kort til Home Assistant
 
-A clean, elegant, fully automated *“What day is it today?”* card for Home Assistant, built using **custom:button-card** and pure JavaScript logic.  
-The card displays a daily icon, title, and subtitle — including holidays, flag days, UN days, unofficial theme days, and personal events.
+Et rent, elegant og fuldautomatisk *"Hvilken dag er det i dag?"*-kort til Home Assistant, bygget med **custom:button-card** og ren JavaScript-logik.
+
+Kortet viser et dagligt ikon, en titel og en undertekst — herunder helligdage, flagdage, FN-dage, uofficielle temadage og personlige begivenheder.
 
 ---
 
-## ✨ Features
+## ✨ Funktioner
 
-- **Automatic date detection**
-- **100+ Danish holidays, theme days, and cultural dates**
-- **Support for personal events** (birthdays, anniversaries)
-- **Beautiful layout** with icon, headline, and description
-- **Automatic date calculation** for variable anniversaries where the date changes every year
-- **Fallback message** when no special day exists
-- **Transparent background** and pixel‑perfect Home Assistant styling
-- **No dependencies** beyond `custom:button-card`
-- **Automatic date calculation** for variable anniversaries where the date changes every year
+- **Automatisk datogenkendelse**
+- **100+ danske helligdage, temadage og kulturelle mærkedage**
+- **Understøttelse af personlige begivenheder** (fødselsdage, mærkedage)
+- **Flot layout** med ikon, overskrift og beskrivelse
+- **Automatisk datoberegning** for variable mærkedage, hvor datoen ændrer sig hvert år
+- **Fallback-besked** når der ikke findes en mærkedag
+- **Transparent baggrund** og pixel-perfekt Home Assistant-styling
+- **Ingen afhængigheder** udover `custom:button-card`
+
 ---
 
 ## 📦 Installation
 
-### Requirements
+### Krav
 
-- Home Assistant  
-- HACS  
-- `custom:button-card` installed  
+- Home Assistant
+- HACS
+- `custom:button-card` installeret
 
-### Adding the Card
+### Tilføjelse af kortet
 
-1. Open your Home Assistant dashboard  
-2. Add a **Manual Card**  
-3. Paste the YAML from the `/card.yaml` file in this repository  
+1. Åbn dit Home Assistant-dashboard
+2. Tilføj et **Manuelt kort**
+3. Indsæt YAML'en fra filen `/card.yaml` i dette repository
 
-The card will automatically detect today’s date and display the correct event.
-
----
-
-## 🧠 How It Works
-
-The card uses a JavaScript dictionary containing all special days in the format:
-
-
-The current date is detected automatically, and the matching entry is shown.  
-If no entry exists, a fallback message is displayed:
-
-> *“Just an ordinary day”*
+Kortet finder automatisk dagens dato og viser den rette begivenhed.
 
 ---
 
-## 🛠️ Customization
+## 🧠 Sådan fungerer det
 
-You can easily:
+Kortet bruger et JavaScript-opslagsobjekt, der indeholder alle mærkedage i formatet:
 
-- Add new special days  
-- Modify icons, titles, or descriptions  
-- Change colors to match your dashboard theme  
-- Replace fallback text with your own wording  
+```js
+"DD-MM": { ikon: "🎉", tekst: "Titel", sub: "Beskrivelse" }
+```
 
-All customization happens inside the `dage` object in the YAML file.
+Dagens dato genkendes automatisk, og den matchende entry vises.
 
----
+Hvis der ikke findes en entry, vises en fallback-besked:
 
-## 📁 Project Structure
-
-| File | Description |
-|------|-------------|
-| **card.yaml** | The full card logic and styling |
-| **README.md** | Project documentation |
-| **assets/** | Screenshots and images |
+> *"Bare en helt almindelig dag"*
 
 ---
 
-## 🚀 Future Ideas
+## 🛠️ Tilpasning
 
-- Seasonal color themes  
-- API‑based flag day detection  
-- Calendar sensor integration  
-- Animated icons on special days  
+Du kan nemt:
 
----
+- Tilføje nye mærkedage
+- Ændre ikoner, titler eller beskrivelser
+- Ændre farver, så de matcher dit dashboard-tema
+- Erstatte fallback-teksten med din egen formulering
 
-## ❤️ Contributing
-
-Pull requests are welcome — especially new special days, styling improvements, or optimizations.
+Al tilpasning sker inde i `dage`-objektet i YAML-filen.
 
 ---
 
-## 📜 License
+## 🚀 Fremtidige idéer
 
-MIT License — free to use, modify, and include in your own dashboards.
+- Sæsonbestemte farvetemaer
+- API-baseret flagdagsgenkendelse
+- Integration med kalender-sensor
+- Animerede ikoner på mærkedage
 
+---
+
+## ❤️ Bidrag
+
+Pull requests er velkomne — især nye mærkedage, styling-forbedringer eller optimeringer.
+
+---
+
+## 📜 Licens
