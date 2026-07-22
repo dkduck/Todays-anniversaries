@@ -11,6 +11,7 @@ The card displays a daily icon, title, and subtitle — including holidays, flag
 - **100+ Danish holidays, theme days, and cultural dates**
 - **Support for personal events** (birthdays, anniversaries)
 - **Beautiful layout** with icon, headline, and description
+- **Automatic date calculation** for variable anniversaries where the date changes every year
 - **Fallback message** when no special day exists
 - **Transparent background** and pixel‑perfect Home Assistant styling
 - **No dependencies** beyond `custom:button-card`
