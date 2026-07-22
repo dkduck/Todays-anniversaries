@@ -49,7 +49,7 @@ label: |
       "07-06": { ikon: "👑", tekst: "Prins Joachims fødselsdag", sub: "Officiel flagdag" },
       "08-06": { ikon: "🌊", tekst: "Verdenshavenes Dag", sub: "FN-temadag" },
       "15-06": { ikon: "🇩🇰", tekst: "Valdemarsdag & Genforeningsdagen", sub: "Officiel flagdag" },
-      "21-06": { ikon: "🟢", tekst: "Grønlands Nationaldag", sub: "Flagdag med det grønlandske flag" },
+      "21-06": { ikon: "🇬🇱", tekst: "Grønlands Nationaldag", sub: "Flagdag med det grønlandske flag" },
       "23-06": { ikon: "🔥", tekst: "Sankt Hans Aften", sub: "Traditionelle midsommerbål" },
       "06-07": { ikon: "💋", tekst: "International Kyssedag", sub: "Uofficiel temadag" },
       "22-07": { ikon: "👑", tekst: "Prins Felix' fødselsdag", sub: "Kongefamilien" },
