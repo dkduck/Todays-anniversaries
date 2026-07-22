@@ -14,7 +14,7 @@ The card displays a daily icon, title, and subtitle — including holidays, flag
 - **Fallback message** when no special day exists
 - **Transparent background** and pixel‑perfect Home Assistant styling
 - **No dependencies** beyond `custom:button-card`
-
+- **Automatic date calculation** for variable anniversaries where the date changes every year
 ---
 
 ## 📦 Installation
