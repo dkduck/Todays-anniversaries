@@ -229,7 +229,7 @@ styles:
     - border-radius: 12px
     - border: none
     - padding: "0"
-    - height: 80px !important
+    - height: 130px !important
     - overflow: hidden
   label:
     - width: 100%
