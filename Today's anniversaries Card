@@ -1,77 +1,194 @@
 type: custom:button-card
 entity: sensor.date
-show_name: false
+show_name: true
 show_icon: false
 show_state: false
 show_label: true
 label: |
   [[[
-    const dage = {
+    /* ---------------------------------------------------------
+       AUTOMATISKE BEREGNERE FOR VARIABLE DAGE
+    --------------------------------------------------------- */
+
+    function paaskedag(year) {
+      const a = year % 19;
+      const b = Math.floor(year / 100);
+      const c = year % 100;
+      const d = Math.floor(b / 4);
+      const e = b % 4;
+      const f = Math.floor((b + 8) / 25);
+      const g = Math.floor((b - f + 1) / 3);
+      const h = (19 * a + b - d - g + 15) % 30;
+      const i = Math.floor(c / 4);
+      const k = c % 4;
+      const l = (32 + 2 * e + 2 * i - h - k) % 7;
+      const m = Math.floor((a + 11 * h + 22 * l) / 451);
+      const month = Math.floor((h + l - 7 * m + 114) / 31);
+      const day = ((h + l - 7 * m + 114) % 31) + 1;
+      return new Date(year, month - 1, day);
+    }
+
+    function fastelavn(year) {
+      const p = paaskedag(year);
+      return new Date(p.getFullYear(), p.getMonth(), p.getDate() - 49);
+    }
+
+    function hvidetirsdag(year) {
+      const f = fastelavn(year);
+      return new Date(f.getFullYear(), f.getMonth(), f.getDate() + 2);
+    }
+
+    function sikkerInternetDag(year) {
+      let tirsdage = [];
+      for (let i = 1; i <= 29; i++) {
+        let dt = new Date(year, 1, i);
+        if (dt.getDay() === 2) tirsdage.push(dt);
+      }
+      return tirsdage[1];
+    }
+
+    function latterensDag(year) {
+      for (let i = 1; i <= 7; i++) {
+        let dt = new Date(year, 4, i);
+        if (dt.getDay() === 0) return dt;
+      }
+    }
+
+    /* Returnerer dato som "DD-MM" - matcher formatet i "faste" */
+    function fmt(d) {
+      return String(d.getDate()).padStart(2, '0') + '-' + String(d.getMonth() + 1).padStart(2, '0');
+    }
+
+    const Y = new Date().getFullYear();
+
+    /* ---------------------------------------------------------
+       VARIABELT BEREGNEDE DAGE (indsættes som DD-MM)
+    --------------------------------------------------------- */
+
+    const variabel = {
+      [fmt(fastelavn(Y))]: { ikon: "🎭", tekst: "Fastelavn", sub: "Traditionel udklædningsdag" },
+      [fmt(hvidetirsdag(Y))]: { ikon: "🧇", tekst: "Hvidetirsdag / Pandekagedag", sub: "Uofficiel pandekage-dag" },
+      [fmt(sikkerInternetDag(Y))]: { ikon: "🛡️", tekst: "Sikker Internet Dag", sub: "Global temadag" },
+      [fmt(latterensDag(Y))]: { ikon: "😂", tekst: "Latterens Verdensdag", sub: "Global temadag" }
+    };
+
+    /* ---------------------------------------------------------
+       FASTE DAGE (nøgler i DD-MM format)
+    --------------------------------------------------------- */
+
+    const faste = {
+
+      /* JANUAR */
       "01-01": { ikon: "🎆", tekst: "Nytårsdag", sub: "Helligdag & flagdag" },
       "05-01": { ikon: "👑", tekst: "Helligtrekongersaften", sub: "Tradition" },
       "17-01": { ikon: "🍕", tekst: "International Pizza-dag", sub: "Uofficiel mad-dag" },
       "21-01": { ikon: "🤗", tekst: "International Krammedag", sub: "Uofficiel temadag" },
       "27-01": { ikon: "🕯️", tekst: "International mindedag for holocaust", sub: "FN-dag" },
+
+      /* FEBRUAR */
       "02-02": { ikon: "🥞", tekst: "Kyndelmisse / Pandekagedag", sub: "Uofficiel temadag" },
-      "05-02": { ikon: "👸", tekst: "Dronning Marys fødselsdag", sub: "Officiel flagdag" },
-      "06-02": { ikon: "👸", tekst: "Prinsesse Maries fødselsdag", sub: "Officiel flagdag" },
-      "09-03": { ikon: "🧇", tekst: "Hvide Tirsdag", sub: "Uofficiel pandekage-dag" },  
       "14-02": { ikon: "❤️", tekst: "Valentinsdag", sub: "Kommerciel kærlighedsdag" },
-      "15-02": { ikon: "🎭", tekst: "Fastelavn", sub: "Traditionel udklædningsdag" },
+      "17-02": { ikon: "🧠", tekst: "Verdens Filosofidag", sub: "UNESCO temadag" },
+      "20-02": { ikon: "⚖️", tekst: "Verdensdagen for Social Retfærdighed", sub: "FN-temadag" },
+      "21-02": { ikon: "📚", tekst: "International Modersmålsdag", sub: "UNESCO temadag" },
+      "22-02": { ikon: "🧭", tekst: "Tænkedag", sub: "Spejderbevægelsen" },
+      "24-02": { ikon: "📅", tekst: "Skuddag", sub: "Kun hvert 4. år" },
       "27-02": { ikon: "🐻‍❄️", tekst: "International Isbjørnedag", sub: "Miljø-temadag" },
+
+      /* MARTS */
       "06-03": { ikon: "🧀", tekst: "Ostens dag", sub: "Uofficiel mad-dag" },
       "08-03": { ikon: "✊", tekst: "Kvindernes Internationale Kampdag", sub: "Global mærkedag" },
       "17-03": { ikon: "🍀", tekst: "Skt. Patricks Dag", sub: "Irsk kulturfejring" },
       "20-03": { ikon: "😊", tekst: "Den Internationale Glædesdag", sub: "FN-temadag" },
+      "22-03": { ikon: "💧", tekst: "Verdensdag for Vand", sub: "FN-temadag" },
       "25-03": { ikon: "🧇", tekst: "International Vaffeldag", sub: "Uofficiel mad-dag" },
+      "27-03": { ikon: "🍵", tekst: "International Teaterdag", sub: "Global temadag" },
       "29-03": { ikon: "⏰", tekst: "Skift til sommertid", sub: "Urene stilles 1 time frem" },
+
+      /* APRIL */
       "01-04": { ikon: "🤡", tekst: "Aprilsnar", sub: "Drilledag" },
-      "02-04": { ikon: "🙏", tekst: "Skærtorsdag", sub: "Helligdag & International Autismedag" },
-      "03-04": { ikon: "✝️", tekst: "Langfredag", sub: "Helligdag & flagdag på halv stang" },
+      "02-04": { ikon: "🙏", tekst: "Skærtorsdag & Autismedag", sub: "Helligdag & FN-dag" },
+      "03-04": { ikon: "✝️", tekst: "Langfredag", sub: "Helligdag & flagdag" },
       "05-04": { ikon: "🐣", tekst: "Påskedag", sub: "Helligdag & flagdag" },
       "06-04": { ikon: "🐣", tekst: "2. påskedag", sub: "Helligdag" },
-      "09-04": { ikon: "🇩🇰", tekst: "Danmarks besættelse 1940", sub: "Flagdag på halv stang til kl. 12" },
-      "16-04": { ikon: "👑", tekst: "Dronning Margrethe II's fødselsdag", sub: "Officiel flagdag" },
-      "21-04": { ikon: "👸", tekst: "Prinsesse Isabellas fødselsdag", sub: "Officiel flagdag" },
+      "09-04": { ikon: "🇩🇰", tekst: "Danmarks besættelse 1940", sub: "Flagdag halv stang" },
+      "16-04": { ikon: "👑", tekst: "Dronning Margrethe II's fødselsdag", sub: "Flagdag" },
+      "21-04": { ikon: "👸", tekst: "Prinsesse Isabellas fødselsdag", sub: "Flagdag" },
       "22-04": { ikon: "🌍", tekst: "Jordens Dag", sub: "Global miljødag" },
+      "28-04": { ikon: "🛠️", tekst: "International Arbejdsmiljødag", sub: "FN-temadag" },
+
+      /* MAJ */
       "01-05": { ikon: "✊", tekst: "Arbejdernes Kampdag", sub: "Traditionel fridag" },
-      "04-05": { ikon: "🕯️", tekst: "Danmarks befrielse 1945", sub: "Lys i vinduerne om aftenen" },
-      "05-05": { ikon: "🇩🇰", tekst: "Danmarks befrielsesdag", sub: "Officiel flagdag" },
+      "03-05": { ikon: "📰", tekst: "International Pressefrihedsdag", sub: "FN-temadag" },
+      "04-05": { ikon: "🕯️", tekst: "Danmarks befrielse 1945", sub: "Lys i vinduerne" },
+      "05-05": { ikon: "🇩🇰", tekst: "Danmarks befrielsesdag", sub: "Flagdag" },
+      "09-05": { ikon: "🇪🇺", tekst: "Europadagen", sub: "EU-fejring" },
       "10-05": { ikon: "💐", tekst: "Mors dag", sub: "Kommerciel mærkedag" },
       "14-05": { ikon: "✝️", tekst: "Kristi Himmelfartsdag", sub: "Helligdag" },
-      "17-05": { ikon: "🍞", tekst: "International bagedag", sub: "Uofficiel mad-dag" },
-      "22-05": { ikon: "🦆", tekst: "International Erik dag", sub: "Uofficiel migselv-dag" },  
+      "15-05": { ikon: "👨‍👩‍👧‍👦", tekst: "International Familiedag", sub: "FN-temadag" },
+      "17-05": { ikon: "🍞", tekst: "International Bagedag", sub: "Uofficiel mad-dag" },
+      "21-05": { ikon: "🌐", tekst: "Kulturel Mangfoldighedsdag", sub: "FN-temadag" },
+      "22-05": { ikon: "🦆", tekst: "International Erik dag", sub: "Uofficiel migselv-dag" },
       "24-05": { ikon: "🕊️", tekst: "Pinsedag", sub: "Helligdag & flagdag" },
-      "25-05": { ikon: "🕊️", tekst: "2. pinsedag", sub: "Helligdag & Royal Run" },
-      "26-05": { ikon: "👑", tekst: "Kong Frederik X's fødselsdag", sub: "Officiel flagdag" },
-      "01-06": { ikon: "🥛", tekst: "International Mælkedag", sub: "Temadag" },
-      "05-06": { ikon: "🇩🇰", tekst: "Grundlovsdag & Fars dag", sub: "Halv/hel fridag for mange" },
-      "07-06": { ikon: "👑", tekst: "Prins Joachims fødselsdag", sub: "Officiel flagdag" },
+      "25-05": { ikon: "🕊️", tekst: "2. pinsedag", sub: "Helligdag" },
+      "26-05": { ikon: "👑", tekst: "Kong Frederik X's fødselsdag", sub: "Flagdag" },
+
+      /* JUNI */
+      "01-06": { ikon: "🧒", tekst: "International Børnedag", sub: "Global temadag" },
+      "05-06": { ikon: "🇩🇰", tekst: "Grundlovsdag, Fars dag & Verdens Miljødag", sub: "Flagdag & FN-temadag" },
+      "07-06": { ikon: "👑", tekst: "Prins Joachims fødselsdag", sub: "Flagdag" },
       "08-06": { ikon: "🌊", tekst: "Verdenshavenes Dag", sub: "FN-temadag" },
-      "15-06": { ikon: "🇩🇰", tekst: "Valdemarsdag & Genforeningsdagen", sub: "Officiel flagdag" },
-      "21-06": { ikon: "🇬🇱", tekst: "Grønlands Nationaldag", sub: "Flagdag med det grønlandske flag" },
-      "23-06": { ikon: "🔥", tekst: "Sankt Hans Aften", sub: "Traditionelle midsommerbål" },
+      "12-06": { ikon: "👶", tekst: "Verdensdag mod Børnearbejde", sub: "FN-temadag" },
+      "15-06": { ikon: "🇩🇰", tekst: "Valdemarsdag & Genforeningsdagen", sub: "Flagdag" },
+      "20-06": { ikon: "🧳", tekst: "Verdens Flygtningedag", sub: "FN-temadag" },
+      "21-06": { ikon: "🇬🇱", tekst: "Grønlands Nationaldag", sub: "Flagdag" },
+      "23-06": { ikon: "🔥", tekst: "Sankt Hans Aften", sub: "Tradition" },
+
+      /* JULI */
       "06-07": { ikon: "💋", tekst: "International Kyssedag", sub: "Uofficiel temadag" },
+      "11-07": { ikon: "🌍", tekst: "Verdens Befolkningsdag", sub: "FN-temadag" },
+      "18-07": { ikon: "🕊️", tekst: "Nelson Mandela Dag", sub: "FN-temadag" },
       "22-07": { ikon: "👑", tekst: "Prins Felix' fødselsdag", sub: "Kongefamilien" },
-      "29-07": { ikon: "🐏", tekst: "Færøernes Nationaldag", sub: "Flagdag med det færøske flag" },
+      "29-07": { ikon: "🐏", tekst: "Færøernes Nationaldag", sub: "Flagdag" },
       "30-07": { ikon: "🤝", tekst: "International Venskabsdag", sub: "FN-temadag" },
+
+      /* AUGUST */
       "08-08": { ikon: "🐱", tekst: "International Kattedag", sub: "Uofficiel temadag" },
+      "13-08": { ikon: "✋", tekst: "Venstrehåndsdag", sub: "Global temadag" },
+      "19-08": { ikon: "🤝", tekst: "Verdens Humanitære Dag", sub: "FN-temadag" },
       "26-08": { ikon: "🐶", tekst: "International Hundedag", sub: "Uofficiel temadag" },
       "28-08": { ikon: "👑", tekst: "Grev Nikolai af Monpezats fødselsdag", sub: "Kongefamilien" },
-      "29-08": { ikon: "🇩🇰", tekst: "Regeringens afgang i 1943", sub: "Historisk flagdag" },
-      "05-09": { ikon: "🎖️", tekst: "Flagdag for Danmarks Udsendte", sub: "Officiel flagdag" },
-      "13-09": { ikon: "🍫", tekst: "International Chokoladedag", sub: "Uofficiel mad-dag" },  
+      "29-08": { ikon: "🇩🇰", tekst: "Regeringens afgang 1943", sub: "Historisk flagdag" },
+
+      /* SEPTEMBER */
+      "05-09": { ikon: "🎖️", tekst: "Flagdag for Danmarks Udsendte", sub: "Flagdag" },
+      "08-09": { ikon: "📖", tekst: "International Læse- og Skrivedag", sub: "UNESCO temadag" },
+      "13-09": { ikon: "🍫", tekst: "International Chokoladedag", sub: "Uofficiel mad-dag" },
+      "15-09": { ikon: "🗳️", tekst: "Demokratidag", sub: "FN-temadag" },
+      "21-09": { ikon: "☮️", tekst: "International Fredsdag", sub: "FN-temadag" },
+      "27-09": { ikon: "🧭", tekst: "Verdens Turismedag", sub: "FN-temadag" },
       "29-09": { ikon: "♻️", tekst: "National Madspildsdag", sub: "Temadag i Danmark" },
-      "01-10": { ikon: "☕", tekst: "International Kaffedag", sub: "Uofficiel temadag" },
-      "04-10": { ikon: "🥐", tekst: "Kanelsneglens Dag", sub: "Populær uofficiel mad-dag" },
-      "15-10": { ikon: "👑", tekst: "Kronprins Christians fødselsdag", sub: "Officiel flagdag" },
+
+      /* OKTOBER */
+      "01-10": { ikon: "👵", tekst: "International Ældredag", sub: "FN-temadag" },
+      "04-10": { ikon: "🥐", tekst: "Kanelsneglens Dag", sub: "Uofficiel mad-dag" },
+      "05-10": { ikon: "👩‍🏫", tekst: "Verdens Lærerdag", sub: "UNESCO temadag" },
+      "10-10": { ikon: "🧠", tekst: "Mental Sundhedsdag", sub: "WHO temadag" },
+      "15-10": { ikon: "👑", tekst: "Kronprins Christians fødselsdag", sub: "Flagdag" },
       "23-10": { ikon: "🎃", tekst: "National Græskarsuppe-dag", sub: "Uofficiel dansk efterårsdag" },
+      "24-10": { ikon: "🇺🇳", tekst: "FN-dagen", sub: "FN-fejring" },
       "25-10": { ikon: "⏰", tekst: "Skift til vintertid", sub: "Urene stilles 1 time tilbage" },
-      "31-10": { ikon: "👻", tekst: "Halloween", sub: "Kommerciel og uofficiel festdag" },
-      "01-11": { ikon: "🕯️", tekst: "Allehelgensdag", sub: "Mindedag i kirken" },
-      "10-11": { ikon: "🦆", tekst: "Mortensaften", sub: "Tradition med and/gås" },
+      "31-10": { ikon: "👻", tekst: "Halloween", sub: "Kommerciel festdag" },
+
+      /* NOVEMBER */
+      "01-11": { ikon: "🕯️", tekst: "Allehelgensdag", sub: "Mindedag" },
+      "10-11": { ikon: "🦆", tekst: "Mortensaften", sub: "Tradition" },
       "19-11": { ikon: "👨", tekst: "International Mandedag", sub: "Uofficiel temadag" },
-      "27-11": { ikon: "🛍️", tekst: "Black Friday", sub: "Årets største kommercielle shoppedag" },
+      "20-11": { ikon: "🧒", tekst: "Børnerettighedsdagen", sub: "FN-temadag" },
+      "27-11": { ikon: "🛍️", tekst: "Black Friday", sub: "Kommerciel shoppedag" },
+
+      /* DECEMBER */
+      "10-12": { ikon: "🕊️", tekst: "Menneskerettighedsdagen", sub: "FN-temadag" },
       "13-12": { ikon: "🕯️", tekst: "Luciadag", sub: "Optog og lys" },
       "21-12": { ikon: "❄️", tekst: "Vintersolhverv", sub: "Årets korteste dag" },
       "24-12": { ikon: "🎄", tekst: "Juleaftensdag", sub: "Dansk julefejring" },
@@ -79,6 +196,9 @@ label: |
       "26-12": { ikon: "🎁", tekst: "2. juledag", sub: "Helligdag" },
       "31-12": { ikon: "🥂", tekst: "Nytårsaften", sub: "Festdag" }
     };
+
+    /* Slå de to sæt sammen - variabel overskriver faste ved evt. datosammenfald */
+    const dage = { ...faste, ...variabel };
 
     const nu = new Date();
     const md = String(nu.getDate()).padStart(2, '0') + '-' + String(nu.getMonth() + 1).padStart(2, '0');
@@ -90,22 +210,15 @@ label: |
       tekst: "En helt almindelig dag",
       sub: "Ingen mærkedage i dag"
     };
-
     const vis = dag || fallback;
 
     return `
       <div style="display: flex; align-items: center; width: 100%; padding: 12px; gap: 15px;">
         <div style="font-size: 38px; line-height: 1; min-width: 45px; text-align: center;">${vis.ikon}</div>
         <div style="display: flex; flex-direction: column; flex-grow: 1; text-align: left;">
-          <div style="font-size: 16px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--secondary-text-color); margin-bottom: 2px;">
-            I DAG
-          </div>
-          <div style="font-size: 26px; font-weight: 700; color: #a2c875; line-height: 1.2;">
-            ${vis.tekst}
-          </div>
-          <div style="font-size: 16px; color: var(--primary-text-color); margin-top: 2px;">
-            ${vis.sub}
-          </div>
+          <div style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--secondary-text-color); margin-bottom: 2px;">I DAG FEJRER VI</div>
+          <div style="font-size: 20px; font-weight: 700; color: #a2c875; line-height: 1.2;">${vis.tekst}</div>
+          <div style="font-size: 13px; color: var(--primary-text-color); margin-top: 2px;">${vis.sub}</div>
         </div>
       </div>
     `;
@@ -120,7 +233,7 @@ styles:
     - overflow: hidden
   label:
     - width: 100%
-    - height: 130%
+    - height: 100%
     - display: flex
     - align-items: center
 card_mod:
