@@ -57,7 +57,7 @@ Hvis der ikke findes en entry, vises en fallback-besked:
 
 Du kan nemt:
 
-- Tilføje nye mærkedage
+- Tilføje nye mærkedage, f.eks. fødselsdage og bryllupsdage
 - Ændre ikoner, titler eller beskrivelser
 - Ændre farver, så de matcher dit dashboard-tema
 - Erstatte fallback-teksten med din egen formulering
