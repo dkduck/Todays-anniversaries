@@ -1,6 +1,6 @@
 type: custom:button-card
 entity: sensor.date
-show_name: true
+show_name: false
 show_icon: false
 show_state: false
 show_label: true
@@ -54,6 +54,18 @@ label: |
       }
     }
 
+    function sidsteSoendagIMarts(year) {
+      let d = new Date(year, 3, 0); // sidste dag i marts
+      while (d.getDay() !== 0) d.setDate(d.getDate() - 1);
+      return d;
+    }
+
+    function sidsteSoendagIOktober(year) {
+      let d = new Date(year, 10, 0); // sidste dag i oktober
+      while (d.getDay() !== 0) d.setDate(d.getDate() - 1);
+      return d;
+    }
+
     /* Returnerer dato som "DD-MM" - matcher formatet i "faste" */
     function fmt(d) {
       return String(d.getDate()).padStart(2, '0') + '-' + String(d.getMonth() + 1).padStart(2, '0');
@@ -69,7 +81,9 @@ label: |
       [fmt(fastelavn(Y))]: { ikon: "🎭", tekst: "Fastelavn", sub: "Traditionel udklædningsdag" },
       [fmt(hvidetirsdag(Y))]: { ikon: "🧇", tekst: "Hvidetirsdag / Pandekagedag", sub: "Uofficiel pandekage-dag" },
       [fmt(sikkerInternetDag(Y))]: { ikon: "🛡️", tekst: "Sikker Internet Dag", sub: "Global temadag" },
-      [fmt(latterensDag(Y))]: { ikon: "😂", tekst: "Latterens Verdensdag", sub: "Global temadag" }
+      [fmt(latterensDag(Y))]: { ikon: "😂", tekst: "Latterens Verdensdag", sub: "Global temadag" },
+      [fmt(sidsteSoendagIMarts(Y))]: { ikon: "⏰", tekst: "Skift til sommertid", sub: "Urene stilles 1 time frem" },
+      [fmt(sidsteSoendagIOktober(Y))]: { ikon: "⏰", tekst: "Skift til vintertid", sub: "Urene stilles 1 time tilbage" }
     };
 
     /* ---------------------------------------------------------
@@ -103,7 +117,6 @@ label: |
       "22-03": { ikon: "💧", tekst: "Verdensdag for Vand", sub: "FN-temadag" },
       "25-03": { ikon: "🧇", tekst: "International Vaffeldag", sub: "Uofficiel mad-dag" },
       "27-03": { ikon: "🍵", tekst: "International Teaterdag", sub: "Global temadag" },
-      "29-03": { ikon: "⏰", tekst: "Skift til sommertid", sub: "Urene stilles 1 time frem" },
 
       /* APRIL */
       "01-04": { ikon: "🤡", tekst: "Aprilsnar", sub: "Drilledag" },
@@ -177,7 +190,6 @@ label: |
       "15-10": { ikon: "👑", tekst: "Kronprins Christians fødselsdag", sub: "Flagdag" },
       "23-10": { ikon: "🎃", tekst: "National Græskarsuppe-dag", sub: "Uofficiel dansk efterårsdag" },
       "24-10": { ikon: "🇺🇳", tekst: "FN-dagen", sub: "FN-fejring" },
-      "25-10": { ikon: "⏰", tekst: "Skift til vintertid", sub: "Urene stilles 1 time tilbage" },
       "31-10": { ikon: "👻", tekst: "Halloween", sub: "Kommerciel festdag" },
 
       /* NOVEMBER */
@@ -216,9 +228,9 @@ label: |
       <div style="display: flex; align-items: center; width: 100%; padding: 12px; gap: 15px;">
         <div style="font-size: 38px; line-height: 1; min-width: 45px; text-align: center;">${vis.ikon}</div>
         <div style="display: flex; flex-direction: column; flex-grow: 1; text-align: left;">
-          <div style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--secondary-text-color); margin-bottom: 2px;">I DAG FEJRER VI</div>
-          <div style="font-size: 20px; font-weight: 700; color: #a2c875; line-height: 1.2;">${vis.tekst}</div>
-          <div style="font-size: 13px; color: var(--primary-text-color); margin-top: 2px;">${vis.sub}</div>
+          <div style="font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--secondary-text-color); margin-bottom: 2px;">I DAG FEJRER VI</div>
+          <div style="font-size: 22px; font-weight: 700; color: #a2c875; line-height: 1.2;">${vis.tekst}</div>
+          <div style="font-size: 14px; color: var(--primary-text-color); margin-top: 2px;">${vis.sub}</div>
         </div>
       </div>
     `;
