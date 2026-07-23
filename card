@@ -54,6 +54,21 @@ label: |
       }
     }
 
+    function kristiHimmelfart(year) {
+      const p = paaskedag(year);
+      return new Date(p.getFullYear(), p.getMonth(), p.getDate() + 39);
+    }
+
+    function pinsedag(year) {
+      const p = paaskedag(year);
+      return new Date(p.getFullYear(), p.getMonth(), p.getDate() + 49);
+    }
+
+    function foerstePinsedag(year) {
+      const p = pinsedag(year);
+      return new Date(p.getFullYear(), p.getMonth(), p.getDate() + 1);
+    }
+
     function sidsteSoendagIMarts(year) {
       let d = new Date(year, 3, 0); // sidste dag i marts
       while (d.getDay() !== 0) d.setDate(d.getDate() - 1);
@@ -82,6 +97,9 @@ label: |
       [fmt(hvidetirsdag(Y))]: { ikon: "🧇", tekst: "Hvidetirsdag / Pandekagedag", sub: "Uofficiel pandekage-dag" },
       [fmt(sikkerInternetDag(Y))]: { ikon: "🛡️", tekst: "Sikker Internet Dag", sub: "Global temadag" },
       [fmt(latterensDag(Y))]: { ikon: "😂", tekst: "Latterens Verdensdag", sub: "Global temadag" },
+      [fmt(kristiHimmelfart(Y))]: { ikon: "✝️", tekst: "Kristi Himmelfartsdag", sub: "Helligdag" },
+      [fmt(pinsedag(Y))]: { ikon: "🕊️", tekst: "Pinsedag", sub: "Helligdag & flagdag" },
+      [fmt(foerstePinsedag(Y))]: { ikon: "🕊️", tekst: "1. pinsedag", sub: "Helligdag" },
       [fmt(sidsteSoendagIMarts(Y))]: { ikon: "⏰", tekst: "Skift til sommertid", sub: "Urene stilles 1 time frem" },
       [fmt(sidsteSoendagIOktober(Y))]: { ikon: "⏰", tekst: "Skift til vintertid", sub: "Urene stilles 1 time tilbage" }
     };
@@ -137,13 +155,10 @@ label: |
       "05-05": { ikon: "🇩🇰", tekst: "Danmarks befrielsesdag", sub: "Flagdag" },
       "09-05": { ikon: "🇪🇺", tekst: "Europadagen", sub: "EU-fejring" },
       "10-05": { ikon: "💐", tekst: "Mors dag", sub: "Kommerciel mærkedag" },
-      "14-05": { ikon: "✝️", tekst: "Kristi Himmelfartsdag", sub: "Helligdag" },
       "15-05": { ikon: "👨‍👩‍👧‍👦", tekst: "International Familiedag", sub: "FN-temadag" },
       "17-05": { ikon: "🍞", tekst: "International Bagedag", sub: "Uofficiel mad-dag" },
       "21-05": { ikon: "🌐", tekst: "Kulturel Mangfoldighedsdag", sub: "FN-temadag" },
       "22-05": { ikon: "🦆", tekst: "International Erik dag", sub: "Uofficiel migselv-dag" },
-      "24-05": { ikon: "🕊️", tekst: "Pinsedag", sub: "Helligdag & flagdag" },
-      "25-05": { ikon: "🕊️", tekst: "2. pinsedag", sub: "Helligdag" },
       "26-05": { ikon: "👑", tekst: "Kong Frederik X's fødselsdag", sub: "Flagdag" },
 
       /* JUNI */
@@ -228,9 +243,9 @@ label: |
       <div style="display: flex; align-items: center; width: 100%; padding: 12px; gap: 15px;">
         <div style="font-size: 38px; line-height: 1; min-width: 45px; text-align: center;">${vis.ikon}</div>
         <div style="display: flex; flex-direction: column; flex-grow: 1; text-align: left;">
-          <div style="font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--secondary-text-color); margin-bottom: 2px;">I DAG FEJRER VI</div>
-          <div style="font-size: 22px; font-weight: 700; color: #a2c875; line-height: 1.2;">${vis.tekst}</div>
-          <div style="font-size: 14px; color: var(--primary-text-color); margin-top: 2px;">${vis.sub}</div>
+          <div style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--secondary-text-color); margin-bottom: 2px;">I DAG FEJRER VI</div>
+          <div style="font-size: 20px; font-weight: 700; color: #a2c875; line-height: 1.2;">${vis.tekst}</div>
+          <div style="font-size: 13px; color: var(--primary-text-color); margin-top: 2px;">${vis.sub}</div>
         </div>
       </div>
     `;
